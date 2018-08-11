@@ -1,32 +1,10 @@
 /**
- * The MySensors Arduino library handles the wireless radio link and protocol
- * between your home built sensors/actuators and HA controller of choice.
- * The sensors forms a self healing radio network with optional repeaters. Each
- * repeater and gateway builds a routing tables in EEPROM which keeps track of the
- * network topology allowing messages to be routed to nodes.
- *
- * Created by Henrik Ekblad <henrik.ekblad@mysensors.org>
- * Copyright (C) 2013-2015 Sensnology AB
- * Full contributor list: https://github.com/mysensors/Arduino/graphs/contributors
- *
- * Documentation: http://www.mysensors.org
- * Support Forum: http://forum.mysensors.org
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * version 2 as published by the Free Software Foundation.
- *
- *******************************
- *
- * REVISION HISTORY
- * Version 1.0 - Henrik Ekblad
  * 
  * DESCRIPTION
- * Example sketch for a "light switch" where you can control light or something 
- * else from both HA controller and a local physical button 
- * (connected between digital pin 3 and GND).
- * This node also works as a repeader for other nodes
- * http://www.mysensors.org/build/relay
+ * Sketch for a switch where you can control light or something 
+ * else from an HA controller.
+ * This node also works as a repeater for other nodes
+ *
  */ 
 
 // Enable debug prints to serial monitor
@@ -57,15 +35,6 @@ MyMessage msg(CHILD_ID,V_LIGHT);
 
 void setup()  
 {  
-  // Setup the button
-  pinMode(BUTTON_PIN,INPUT);
-  // Activate internal pull-up
-  digitalWrite(BUTTON_PIN,HIGH);
-
-  // After setting up the button, setup debouncer
-  debouncer.attach(BUTTON_PIN);
-  debouncer.interval(5);
-
   // Make sure relays are off when starting up
   digitalWrite(RELAY_PIN, RELAY_OFF);
   // Then set relay pins in output mode
@@ -78,7 +47,7 @@ void setup()
 
 void presentation()  {
   // Send the sketch version information to the gateway and Controller
-  sendSketchInfo("Relay & Button", "1.0");
+  sendSketchInfo("Relay", "1.1");
 
   // Register all sensors to gw (they will be created as child devices)
   present(CHILD_ID, S_LIGHT);
